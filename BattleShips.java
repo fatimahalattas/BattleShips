@@ -9,6 +9,8 @@ public class BattleShips {
 	private static String errorResponseLetter = "Please enter a number as you have entered a letter";
 	private static String[][] oceanMap = new String[10][10]; // Ocean Map >> 2d Array 10 x 10
 	private static String[][] oceanMapNoShips = new String[10][10]; // Ocean Map >> 2d Array 10 x 10
+	private static String[][] compOceanMapNoShips = new String[10][10]; // Ocean Map >> 2d Array 10 x 10
+	private static String[][] compOceanMap = new String[10][10]; // Computer Ocean Map >> 2d Array 10 x 10
 
 	private static void mapMaker() {
 		// Create Numbers on the map
@@ -45,7 +47,41 @@ public class BattleShips {
 		}
 		System.out.println("  ABCDEFGHIJ");
 	}
+	
+	private static void compMapMakerNoShips() {
+		// Create Numbers on the map
+		System.out.println("  ABCDEFGHIJ");
+		for (int row = 0; row < compOceanMapNoShips.length; row++) {
+			System.out.print(row + "|");
+			for (int col = 0; col < compOceanMapNoShips[row].length; col++) {
+				if (compOceanMapNoShips[row][col] == null) {
+					System.out.print(" ");
+				} else {
+					System.out.print(compOceanMapNoShips[row][col]);
+				}
+			}
+			System.out.println("|" + row);
+		}
+		System.out.println("  ABCDEFGHIJ");
+	}
 
+	private static void mapMakerComputer() {
+		// Create Numbers on the map
+		System.out.println("  ABCDEFGHIJ");
+		for (int row = 0; row < compOceanMap.length; row++) {
+			System.out.print(row + "|");
+			for (int col = 0; col < compOceanMap[row].length; col++) {
+				if (compOceanMap[row][col] == null) {
+					System.out.print(" ");
+				} else {
+					System.out.print(compOceanMap[row][col]);
+				}
+			}
+			System.out.println("|" + row);
+		}
+		System.out.println("  ABCDEFGHIJ");
+	}
+	
 	private static int convertLetterToInt(String val) {
 		int toReturn = -1;
 		switch (val) {
@@ -217,11 +253,11 @@ public class BattleShips {
 					System.out.println(errorResponse);
 				}
 			}
-			if (oceanMap[checkerXValComp][checkerYvalComp] != null) {
+			if (compOceanMap[checkerXValComp][checkerYvalComp] != null) {
 				System.out.println("This position has already been taken, please choose another place for your ship");
 				countComp--;
 			} else {
-				oceanMap[checkerXValComp][checkerYvalComp] = "#";
+				compOceanMap[checkerXValComp][checkerYvalComp] = "#";
 			}
 			checkerXComp = false;
 			checkerYComp = false;
@@ -252,7 +288,7 @@ public class BattleShips {
 					stateCheckerUser = true;
 				} else {
 					userStrike += userGuess();
-					mapMakerNoShips();
+					compMapMakerNoShips();
 					if (userStrike == compShips) {
 						stateCheckerUser = true;
 						gameOver = true;
@@ -323,43 +359,43 @@ public class BattleShips {
 				}
 			}
 
-			if (oceanMap[userGuessX][userGuessY] != null) {
+			if (compOceanMap[userGuessX][userGuessY] != null) {
 				// if cell == 1
-				if (oceanMap[userGuessX][userGuessY] == "1") {
+				if (compOceanMap[userGuessX][userGuessY] == "1") {
 					System.out.println("You have already selected this position, please choose again");
 					userGuessCheckerX = false;
 					userGuessCheckerY = false;
 				}
 				// if cell == 2
-				else if (oceanMap[userGuessX][userGuessY] == "2") {
+				else if (compOceanMap[userGuessX][userGuessY] == "2") {
 					System.out.println("The Computer has already chosen this position, please choose again");
 					userGuessCheckerX = false;
 					userGuessCheckerY = false;
-				} else if (oceanMap[userGuessX][userGuessY] == "@") {
+				} else if (compOceanMap[userGuessX][userGuessY] == "@") {
 					System.out.println("You cant fire on your own position, please choose again");
 					userGuessCheckerX = false;
 					userGuessCheckerY = false;
-				} else if (oceanMap[userGuessX][userGuessY] == "*") {
+				} else if (compOceanMap[userGuessX][userGuessY] == "*") {
 					System.out.println("The computer has already sunk your ship at this position, please choose again");
 					userGuessCheckerX = false;
 					userGuessCheckerY = false;
-				} else if (oceanMap[userGuessX][userGuessY] == "^") {
+				} else if (compOceanMap[userGuessX][userGuessY] == "^") {
 					System.out.println("You have already sunk this ship, please choose again");
 					userGuessCheckerX = false;
 					userGuessCheckerY = false;
 				} else {
 					// else update the cell
 					System.out.println("HIT");
-					oceanMap[userGuessX][userGuessY] = "^";
-					oceanMapNoShips[userGuessX][userGuessY] = "^";
+					compOceanMap[userGuessX][userGuessY] = "^";
+					compOceanMapNoShips[userGuessX][userGuessY] = "^";
 					hitValue++;
 					userGuessChecker = true;
 				}
 
 			} else {
 				System.out.println("MISS");
-				oceanMap[userGuessX][userGuessY] = "1";
-				oceanMapNoShips[userGuessX][userGuessY] = "1";
+				compOceanMap[userGuessX][userGuessY] = "1";
+				compOceanMapNoShips[userGuessX][userGuessY] = "1";
 				userGuessChecker = true;
 			}
 
@@ -457,6 +493,9 @@ public class BattleShips {
 		compDeployment();
 		mapMakerNoShips();
 		startGame();
+		compMapMakerNoShips();
+		mapMakerComputer();
+		
 
 	}
 
