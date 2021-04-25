@@ -1,4 +1,5 @@
 
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -6,12 +7,14 @@ public class BattleShips {
 
 	private static Scanner userInput = new Scanner(System.in);
 	private static String errorResponse = "Please enter a letter between A and J";
-	private static String errorResponseLetter = "Please enter a number as you have entered a letter";
+	private static String errorResponseNumbers = "Please enter a number between 0 and 9";
 	private static String[][] oceanMap = new String[10][10]; // Ocean Map >> 2d Array 10 x 10
 	private static String[][] oceanMapNoShips = new String[10][10]; // Ocean Map >> 2d Array 10 x 10
 	private static String[][] compOceanMapNoShips = new String[10][10]; // Ocean Map >> 2d Array 10 x 10
 	private static String[][] compOceanMap = new String[10][10]; // Computer Ocean Map >> 2d Array 10 x 10
-
+	
+	
+	
 	private static void mapMaker() {
 		// Create Numbers on the map
 		System.out.println("   ABCDEFGHIJ");
@@ -49,7 +52,7 @@ public class BattleShips {
 	}
 	
 	private static void compMapMakerNoShips() {
-		// Create Numbers on the map
+		// Create Letters on the map
 		System.out.println("  ABCDEFGHIJ");
 		for (int row = 0; row < compOceanMapNoShips.length; row++) {
 			System.out.print(row + "|");
@@ -66,7 +69,7 @@ public class BattleShips {
 	}
 
 	private static void mapMakerComputer() {
-		// Create Numbers on the map
+		// Create Letters on the map
 		System.out.println("  ABCDEFGHIJ");
 		for (int row = 0; row < compOceanMap.length; row++) {
 			System.out.print(row + "|");
@@ -85,34 +88,34 @@ public class BattleShips {
 	private static int convertLetterToInt(String val) {
 		int toReturn = -1;
 		switch (val) {
-		case "A":
+		case "A": case "a":
 			toReturn = 0;
 			break;
-		case "B":
+		case "B": case "b":
 			toReturn = 1;
 			break;
-		case "C":
+		case "C": case "c":
 			toReturn = 2;
 			break;
-		case "D":
+		case "D": case "d":
 			toReturn = 3;
 			break;
-		case "E":
+		case "E": case "e":
 			toReturn = 4;
 			break;
-		case "F":
+		case "F": case "f":
 			toReturn = 5;
 			break;
-		case "G":
+		case "G": case "g":
 			toReturn = 6;
 			break;
-		case "H":
+		case "H": case "h":
 			toReturn = 7;
 			break;
-		case "I":
+		case "I": case "i":
 			toReturn = 8;
 			break;
-		case "J":
+		case "J": case "j":
 			toReturn = 9;
 			break;
 		default:
@@ -178,22 +181,31 @@ public class BattleShips {
 
 		System.out.println("Where do you want to deploy your ships?");
 		System.out.println();
-
+		
+		
+		
 		while (count < 5) {
 			while (!checkerX) {
-				System.out.print("Please enter your X Co-Ordinate: ");
+				
+				System.out.print("Please enter your X Co-Ordinate (a number between 0 and 9): ");
 				userValX = userInput.nextInt();
-				if (userValX <= 9 && userValX >= 0) {
-					checkerX = true;
-					checkerXVal = userValX;
-				} else {
-					System.out.println(errorResponseLetter);
-				}
-			}
+					if (userValX <= 9 && userValX >= 0) {
+						checkerX = true;
+						checkerXVal = userValX;
+					}
+					
+					
+					else {
+						System.out.println(errorResponseNumbers);
+					}				
+				
+		} 	
+		
+			
 
 			while (!checkerY) {
-				System.out.print("Please enter your Y Co-Ordinate: ");
-				String userLtrValy = userInput.nextLine();
+				System.out.print("Please enter your Y Co-Ordinate (a letter between A and J): ");
+				String userLtrValy = userInput.next();
 				userValY = convertLetterToInt(userLtrValy);
 				if (userValY <= 9 && userValY >= 0) {
 					checkerY = true;
@@ -213,10 +225,11 @@ public class BattleShips {
 			count++;
 			System.out.println("number of ships used = " + count);
 		}
+	}
 		/////////////////////////////////////////////
 		// Get User input End
 		/////////////////////////////////////////////
-	}
+	
 
 	private static void compDeployment() {
 		/////////////////////////////////////////////
@@ -348,12 +361,12 @@ public class BattleShips {
 
 				while (!userGuessCheckerY) {
 					System.out.print("Enter your Y value: ");
-					String userLtrGuessY = userInput.nextLine();
+					String userLtrGuessY = userInput.next();
 					userGuessY = convertLetterToInt(userLtrGuessY);
 					if (userGuessY < 10 && userGuessY >= 0) {
 						userGuessCheckerY = true;
 					} else {
-						System.out.println(errorResponse);
+						System.out.println(errorResponseNumbers);
 					}
 
 				}
